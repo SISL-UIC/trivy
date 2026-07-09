@@ -13,17 +13,17 @@ on:
         type: string
     secrets:
       DOCKERHUB_USER:
-        required: true
+        required: false
       DOCKERHUB_TOKEN:
-        required: true
+        required: false
       ECR_ACCESS_KEY_ID:
-        required: true
+        required: false
       ECR_SECRET_ACCESS_KEY:
-        required: true
+        required: false
       GPG_KEY:
-        required: true
+        required: false
       GPG_PASSPHRASE:
-        required: true
+        required: false
 
 env:
   GH_USER: "aqua-bot"
@@ -31,18 +31,17 @@ env:
 jobs:
   release:
     name: Release
-    runs-on: ubuntu-2404-4core
+    runs-on: ubuntu-24.04
     env:
       DOCKER_CLI_EXPERIMENTAL: "enabled"
     permissions:
       id-token: write # For cosign
       packages: write # For GHCR
       contents: write # For GoReleaser to create the GitHub Release
-      discussions: write # For GoReleaser to attach the release to a Discussion (discussion_category_name)
       attestations: write # For build provenance attestations
     steps:
       - name: Cosign install
-        uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
+        uses: SISL-UIC/cosign-installer@5f15b33ca64e5941f7a81b98fac0257a26f735a1 # v4.1.2
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@06116385d9baf250c9f4dcb4858b16962ea869c3 # v4.1.0
